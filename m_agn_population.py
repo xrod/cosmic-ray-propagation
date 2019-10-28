@@ -43,25 +43,6 @@ def load_spectra(log_eta, blazar_type, esc, iso, logtvar, loglum, filepath):
     return types: np.array, np.array, dict, np.array
     '''
     
-
-#     # [OLD METHOD]
-#
-#     blazar_type_str = 'fsrq' if blazar_type == "FSRQ" else 'bllac'
-#     cr_injection = np.loadtxt("{0:s}/inj_{1:.1f}_{2:d}_{3:s}_{4:s}.txt".format(
-#         filepath,L,iso,blazar_type_str,esc))
-#     cr_spectrum  = np.loadtxt("{0:s}/cr_{1:.1f}_{2:d}_{3:s}_{4:s}.txt".format(
-#         filepath,L,iso,blazar_type_str,esc))
-#     nu_spectrum  = np.loadtxt("{0:s}/nu_{1:.1f}_{2:d}_{3:s}_{4:s}.txt".format(
-#         filepath,L,iso,blazar_type_str,esc))
-#     print " Read inj_{0:.1f}_{1:d}_{2:s}_{3:s}.txt".format(L,iso,blazar_type_str,esc)
-
-#     [u'LOGACCEFF_-0.2', u'LOGACCEFF_-0.3', u'LOGACCEFF_-0.1', u'LOGACCEFF_0.0']
-# [u'TYPE_FSRQ', u'TYPE_BL']
-# [u'ESC_adv', u'ESC_log', u'ESC_dif']
-# [u'INJ_07', u'INJ_02', u'INJ_26', u'INJ_01']
-# [u'LOGTVAR_7.0', u'LOGTVAR_6.5', u'LOGTVAR_6.8', u'LOGTVAR_6.2', u'LOGTVAR_6.0']
-# [u'LOGLGAMMA_45.5', u'LOGLGAMMA_48.5', u'LOGLGAMMA_41.5', u'LOGLGAMMA_44.5', u'LOGLGAMMA_42.5', u'LOGLGAMMA_49.5', u'LOGLGAMMA_50.5', u'LOGLGAMMA_47.5', u'LOGLGAMMA_43.5', u'LOGLGAMMA_46.5']
-# [u'cr', u'E', u'nu', u'inj']
     h5path = "/LOGACCEFF_{0:.1f}/TYPE_{1:s}/ESC_{2:s}/INJ_{3:02d}/LOGTVAR_{4:.1f}/LOGLGAMMA_{5:.1f}".format(
               log_eta,
               blazar_type,
@@ -73,7 +54,6 @@ def load_spectra(log_eta, blazar_type, esc, iso, logtvar, loglum, filepath):
     dct = h5todict(filepath, path=h5path)
     
     # [GeV]
-    #     egrid = cr_injection[:,0] # OLD METHOD
     egrid = dct['E']
     cr_injection = dct['inj']
     cr_spectrum  = dct['cr']
@@ -90,9 +70,6 @@ def load_spectra(log_eta, blazar_type, esc, iso, logtvar, loglum, filepath):
     for pid, spectrum in zip(cr_ids,cr_spectrum):
         cr_spectra_at_source[pid] = spectrum[1:]
 
-#     cr_injection = cr_injection[:,1] ONLY NEEDED IN OLD METHOD
-#     nu_spectrum = nu_spectrum[:,1]
-    
     return egrid, cr_injection, cr_spectra_at_source, nu_spectrum
 
 
